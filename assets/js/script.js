@@ -1,8 +1,45 @@
+let today = luxon.DateTime.now().toLocaleString()
+let todayDivEl = $('.todays-weather')
+let forecastEl = $('.five-day')
+cityName='Iowa City'
 
-let apiKey = '866141fb7c26836e8f40e14146bbd900'
-
-cityName='Atlanta'
-
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`).then(function(weatherReport) {
-    console.log(weatherReport.json());
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=866141fb7c26836e8f40e14146bbd900`).then(function(weatherReport) {
+return weatherReport.json();
+}).then(function(weatherReport){
+    let city = weatherReport.name
+    let cityEl = $('<h1>').text(city + ' (' + today + ')') 
+    let temp = weatherReport.main.temp
+    let tempEl = $('<p>').text(temp + ' F')
+    let wind = weatherReport.wind.speed
+    let windEl = $('<p>').text(wind + ' MPH')
+    let humidity = weatherReport.main.humidity
+    let humidityEl = $('<p>').text(humidity + ' %')
+    todayDivEl.append(cityEl)
+    todayDivEl.append(tempEl)
+    todayDivEl.append(windEl)
+    todayDivEl.append(humidityEl)
+    let lat = weatherReport.coord.lat
+    let lon = weatherReport.coord.lon
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=866141fb7c26836e8f40e14146bbd900`).then(function(weatherForecast){
+        return weatherForecast.json();
+        }).then(function(weatherForecast) {
+            let uvi = weatherForecast.current.uvi
+            let uviEl = $('<p>').text('UV Index: ' + uvi)
+        for (i=1; i<6; i++) {
+            let day = luxon.DateTime.now().plus({ days: i }).toLocaleString()
+            let dayEl = $('<h5>').text(day) 
+            let temp = weatherForecast.daily[i].temp.max
+            let tempEl = $('<p>').text('Temp: ' + temp + ' F')
+            let wind = weatherForecast.daily[i].wind_speed
+            let windEl = $('<p>').text('Wind: ' + wind + ' MPH')
+            let humidity = weatherForecast.daily[i].humidity
+            let humidityEl = $('<p>').text('Humidity: ' + humidity + ' %')
+            let cardDivEl = $('<div>').addClass('col mb-3')
+            let cardEl = $('<div>').addClass('card')
+            todayDivEl.append(uviEl);
+            cardEl.append(dayEl).append(tempEl).append(windEl).append(humidityEl)
+            cardDivEl.append(cardEl)
+            forecastEl.append(cardDivEl)
+        }
+    })
 })
