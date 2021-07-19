@@ -1,5 +1,6 @@
 let today = luxon.DateTime.now().toLocaleString()
 let todayDivEl = $('.todays-weather')
+let fiveDayHeaderEl = $('.five-day-header')
 let forecastEl = $('.five-day')
 let listGroupDiv = $('.list-group')
 let searchedCities = []
@@ -83,18 +84,18 @@ let fetchWeatherData = function (cityName) {
         if (weatherReport.ok) {
             weatherReport.json().then(function (weatherReport) {
                 todayDivEl.empty();
-                forecastEl.empty();
+                fiveDayHeaderEl.empty();
                 let city = weatherReport.name
                 let iconCodeToday = weatherReport.weather[0].icon
                 let iconToday = `https://openweathermap.org/img/wn/${iconCodeToday}@2x.png`
                 let iconTodayEl = $('<img>').attr('src', iconToday)
                 let cityEl = $('<h1>').text(city + ' (' + today + ')').append(iconTodayEl)
                 let temp = weatherReport.main.temp
-                let tempEl = $('<p>').text(temp + ' F')
+                let tempEl = $('<p>').text('Temp: ' + temp + ' F')
                 let wind = weatherReport.wind.speed
-                let windEl = $('<p>').text(wind + ' MPH')
+                let windEl = $('<p>').text('Wind: ' + wind + ' MPH')
                 let humidity = weatherReport.main.humidity
-                let humidityEl = $('<p>').text(humidity + ' %')
+                let humidityEl = $('<p>').text('Humidity: ' + humidity + ' %')
                 todayDivEl.append(cityEl)
                 todayDivEl.append(tempEl)
                 todayDivEl.append(windEl)
@@ -109,6 +110,8 @@ let fetchWeatherData = function (cityName) {
                     let uvi = weatherForecast.current.uvi
                     let uviEl = $('<p>').text('UV Index: ' + uvi);
                     setUviBackground(uvi, uviEl);
+                    let headerEl = $('<h3>').text('Five Day Forecast:')
+                    fiveDayHeaderEl.append(headerEl)
                     for (i = 1; i < 6; i++) {
                         let day = luxon.DateTime.now().plus({ days: i }).toLocaleString()
                         let dayEl = $('<h5>').text(day)
