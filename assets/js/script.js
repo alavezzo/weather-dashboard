@@ -5,17 +5,22 @@ let listGroupDiv = $('.list-group')
 let searchedCities = []
 let push = true
 
-cityName = 'Iowa City'
-
 $(".btn-primary").click(function () {
     // get form values
     event.preventDefault();
     var cityText = $("#searchBar").val();
     if (cityText) {
         fetchWeatherData(cityText);
-
     };
 });
+
+let loadCities = function() {
+    let storage = localStorage.getItem('Cities')
+    if (storage !== null) {
+        searchedCities = JSON.parse(storage)
+        renderList();
+    }
+}
 
 let setCities = function (city) {
     if (searchedCities.length === 0) {
@@ -101,3 +106,4 @@ let fetchWeatherData = function (cityName) {
     });
 }
 
+loadCities();
