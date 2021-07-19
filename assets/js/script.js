@@ -61,7 +61,10 @@ let fetchWeatherData = function (cityName) {
                 todayDivEl.empty();
                 forecastEl.empty();
                 let city = weatherReport.name
-                let cityEl = $('<h1>').text(city + ' (' + today + ')')
+                let iconCodeToday = weatherReport.weather[0].icon
+                let iconToday = `https://openweathermap.org/img/wn/${iconCodeToday}@2x.png`
+                let iconTodayEl = $('<img>').attr('src', iconToday)
+                let cityEl = $('<h1>').text(city + ' (' + today + ')').append(iconTodayEl)
                 let temp = weatherReport.main.temp
                 let tempEl = $('<p>').text(temp + ' F')
                 let wind = weatherReport.wind.speed
@@ -81,9 +84,13 @@ let fetchWeatherData = function (cityName) {
                 }).then(function (weatherForecast) {
                     let uvi = weatherForecast.current.uvi
                     let uviEl = $('<p>').text('UV Index: ' + uvi)
+                    todayDivEl.append(uviEl);
                     for (i = 1; i < 6; i++) {
                         let day = luxon.DateTime.now().plus({ days: i }).toLocaleString()
                         let dayEl = $('<h5>').text(day)
+                        let iconCode = weatherForecast.daily[i].weather[0].icon
+                        let icon = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+                        let iconEl = $('<img>').attr('src', icon)
                         let temp = weatherForecast.daily[i].temp.max
                         let tempEl = $('<p>').text('Temp: ' + temp + ' F')
                         let wind = weatherForecast.daily[i].wind_speed
@@ -92,8 +99,7 @@ let fetchWeatherData = function (cityName) {
                         let humidityEl = $('<p>').text('Humidity: ' + humidity + ' %')
                         let cardDivEl = $('<div>').addClass('col mb-3')
                         let cardEl = $('<div>').addClass('card')
-                        todayDivEl.append(uviEl);
-                        cardEl.append(dayEl).append(tempEl).append(windEl).append(humidityEl)
+                        cardEl.append(dayEl).append(iconEl).append(tempEl).append(windEl).append(humidityEl)
                         cardDivEl.append(cardEl)
                         forecastEl.append(cardDivEl)
                     }
