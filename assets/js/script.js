@@ -5,14 +5,20 @@ let listGroupDiv = $('.list-group')
 let searchedCities = []
 let push = true
 
-$(".btn-primary").click(function () {
+$('.btn-primary').click(function () {
     // get form values
     event.preventDefault();
-    var cityText = $("#searchBar").val();
+    let cityText = $('#searchBar').val().trim();
     if (cityText) {
         fetchWeatherData(cityText);
     };
 });
+
+listGroupDiv.on('click', 'button', function () {
+    event.preventDefault();
+    let cityText = $(this).html()
+    fetchWeatherData(cityText);
+})
 
 let loadCities = function() {
     let storage = localStorage.getItem('Cities')
@@ -49,7 +55,9 @@ let saveCities = function () {
 let renderList = function () {
     listGroupDiv.empty()
     for (i = 0; i < searchedCities.length; i++) {
-        let listItemEl = $('<li>').addClass('list-group-item').text(searchedCities[i])
+        let listItemEl = $('<li>').addClass('list-group-item')
+        let savedCityButton = $('<button>').addClass('btn city-btn').text(searchedCities[i])
+        listItemEl.append(savedCityButton)
         listGroupDiv.append(listItemEl)
     }
 }
