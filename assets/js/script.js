@@ -62,8 +62,24 @@ let renderList = function () {
     }
 }
 
+let setUviBackground = function(uvi, uviEl) {
+    if (uvi<2.5){
+        uviEl.addClass('green')
+    } else if (uvi >2.5 && uvi < 5.5) {
+        uviEl.addClass('yellow')
+    } else if (uvi >5.5 && uvi<7.5) {
+        uviEl.addClass('orange')
+    } else if (uvi >7.5 && uvi<10.5) {
+        uviEl.addClass('red')
+    } else {
+        uviEl.addClass('violet')
+    }
+    todayDivEl.append(uviEl)
+}
+
+
 let fetchWeatherData = function (cityName) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherReport) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&exclude=minutely,hourly,alerts&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherReport) {
         if (weatherReport.ok) {
             weatherReport.json().then(function (weatherReport) {
                 todayDivEl.empty();
@@ -87,12 +103,12 @@ let fetchWeatherData = function (cityName) {
                 $("#searchBar").val('')
                 let lat = weatherReport.coord.lat
                 let lon = weatherReport.coord.lon
-                fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherForecast) {
+                fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly,alerts&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherForecast) {
                     return weatherForecast.json();
                 }).then(function (weatherForecast) {
                     let uvi = weatherForecast.current.uvi
-                    let uviEl = $('<p>').text('UV Index: ' + uvi)
-                    todayDivEl.append(uviEl);
+                    let uviEl = $('<p>').text('UV Index: ' + uvi);
+                    setUviBackground(uvi, uviEl);
                     for (i = 1; i < 6; i++) {
                         let day = luxon.DateTime.now().plus({ days: i }).toLocaleString()
                         let dayEl = $('<h5>').text(day)
