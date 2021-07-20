@@ -9,7 +9,7 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-<header class='container'>
+<header class='header container'>
 <nav class="navbar navbar-light bg-light mt-4 ml">
     <span class="navbar-brand mx-auto text-white h1">Weather Dashboard</span>
   </nav>
@@ -20,7 +20,7 @@
                 <form>
                     <!--form input-->
                     <div class="form-group">
-                        <label for="searchBar">Search For a City:</label>
+                        <label id='search-label' for="searchBar">Search For a City:</label>
                         <input type="text" class="form-control" id="searchBar" aria-describedby="searchBar" placeholder="Enter city"/>     
                     </div>
                     <button type="submit" class="btn btn-primary">Search</button>
@@ -34,9 +34,9 @@
             </div>
             <div class='col-9'>
                 <!--Today's Weather-->
-                <div class='row'>
+                <div class='marg row'>
                     <div class='todays-weather col-12'>
-                        <h1>Search a City!!!</h1>
+                        <h3>Search a City!!!</h3>
                     </div>
                 </div>
                 <!--5 Day Forecast-->

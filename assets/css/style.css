@@ -1,6 +1,11 @@
+.header {
+    padding: 0px;
+}
+
 nav {
     background-color: #6b4eb9;
     background-image: linear-gradient(.25turn, #6b4eb9 0%, #53268f 52%, #73117c 90%);
+    margin-bottom: 15px;
 }
 
 .green {
@@ -15,6 +20,37 @@ nav {
     background-color: orange;
 }
 
+.h1 {
+    font-size: 5vh;
+}
+
+#search-label {
+    font-size: 4vh;
+    font-weight: bold;
+}
+
+.btn {
+    width: 100%;
+}
+
+form {
+    border-bottom: grey solid;
+}
+.btn-primary {
+    margin-bottom: 15px;
+}
+
+.list-group {
+    margin-top: 7.5px;
+}
+.list-group-item {
+    margin: 7.5px 0;
+    padding: 0;
+    border: none;
+    background-color: grey;
+    border-radius: .25rem;
+}
+
 .red {
     background-color: red;
 }
@@ -22,3 +58,26 @@ nav {
 .violet {
     background-color: violet;
 }
+
+.todays-weather {
+    border: 1px solid;
+    padding: 10px;
+}
+
+.todays-weather p {
+    width: fit-content;
+    padding: 5px;
+    border-radius: .25rem;
+}
+
+.marg {
+    padding: 0 15px;
+}
+
+.card {
+    color: white;
+    background-color: teal;
+    padding: 10px;
+    font-size: 2vh;
+}
+

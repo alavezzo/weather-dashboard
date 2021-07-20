@@ -1,4 +1,3 @@
-let today = luxon.DateTime.now().toLocaleString()
 let todayDivEl = $('.todays-weather')
 let fiveDayHeaderEl = $('.five-day-header')
 let forecastEl = $('.five-day')
@@ -83,8 +82,10 @@ let fetchWeatherData = function (cityName) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&exclude=minutely,hourly,alerts&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherReport) {
         if (weatherReport.ok) {
             weatherReport.json().then(function (weatherReport) {
+                let today = luxon.DateTime.now().toLocaleString()
                 todayDivEl.empty();
                 fiveDayHeaderEl.empty();
+                forecastEl.empty();
                 let city = weatherReport.name
                 let iconCodeToday = weatherReport.weather[0].icon
                 let iconToday = `https://openweathermap.org/img/wn/${iconCodeToday}@2x.png`
