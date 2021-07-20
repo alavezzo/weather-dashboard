@@ -90,7 +90,7 @@ let fetchWeatherData = function (cityName) {
                 let iconCodeToday = weatherReport.weather[0].icon
                 let iconToday = `https://openweathermap.org/img/wn/${iconCodeToday}@2x.png`
                 let iconTodayEl = $('<img>').attr('src', iconToday)
-                let cityEl = $('<h1>').text(city + ' (' + today + ')').append(iconTodayEl)
+                let cityEl = $('<h1>').html("<span id='city'>" + city + '</span>' + ' (' + today + ')').append(iconTodayEl)
                 let temp = weatherReport.main.temp
                 let tempEl = $('<p>').text('Temp: ' + temp + ' F')
                 let wind = weatherReport.wind.speed
@@ -141,3 +141,10 @@ let fetchWeatherData = function (cityName) {
 }
 
 loadCities();
+
+setInterval(function(){
+    if ($('#city') !== null) {
+        let city = $('#city').text().trim();
+        fetchWeatherData(city);
+    }
+  }, ((1000*60)*30))
