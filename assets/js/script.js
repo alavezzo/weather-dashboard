@@ -90,7 +90,7 @@ let fetchWeatherData = function (cityName) {
                 let iconCodeToday = weatherReport.weather[0].icon
                 let iconToday = `https://openweathermap.org/img/wn/${iconCodeToday}@2x.png`
                 let iconTodayEl = $('<img>').attr('src', iconToday)
-                let cityEl = $('<h1>').html("<span id='city'>" + city + '</span>' + ' (' + today + ')').append(iconTodayEl)
+                let cityEl = $('<h3>').html("<span id='city'>" + city + '</span>' + ' (' + today + ')').append(iconTodayEl)
                 let temp = weatherReport.main.temp
                 let tempEl = $('<p>').text('Temp: ' + temp + ' F')
                 let wind = weatherReport.wind.speed
@@ -111,7 +111,7 @@ let fetchWeatherData = function (cityName) {
                     let uvi = weatherForecast.current.uvi
                     let uviEl = $('<p>').text('UV Index: ' + uvi);
                     setUviBackground(uvi, uviEl);
-                    let headerEl = $('<h3>').text('Five Day Forecast:')
+                    let headerEl = $('<h4>').text('Five Day Forecast:')
                     fiveDayHeaderEl.append(headerEl)
                     for (i = 1; i < 6; i++) {
                         let day = luxon.DateTime.now().plus({ days: i }).toLocaleString()
