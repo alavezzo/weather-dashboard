@@ -82,7 +82,6 @@ let fetchWeatherData = function (cityName) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&exclude=minutely,hourly,alerts&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherReport) {
         if (weatherReport.ok) {
             weatherReport.json().then(function (weatherReport) {
-                let today = luxon.DateTime.now().toLocaleString()
                 todayDivEl.empty();
                 fiveDayHeaderEl.empty();
                 forecastEl.empty();
@@ -90,7 +89,7 @@ let fetchWeatherData = function (cityName) {
                 let iconCodeToday = weatherReport.weather[0].icon
                 let iconToday = `https://openweathermap.org/img/wn/${iconCodeToday}@2x.png`
                 let iconTodayEl = $('<img>').attr('src', iconToday)
-                let cityEl = $('<h3>').html("<span id='city'>" + city + '</span>' + ' (' + today + ')').append(iconTodayEl)
+                let cityEl = $('<h3>').html("<span id='city'>" + city + '</span>' + " (<span id='date'></span>) ").append(iconTodayEl)
                 let temp = weatherReport.main.temp
                 let tempEl = $('<p>').text('Temp: ' + temp + ' F')
                 let wind = weatherReport.wind.speed
@@ -108,13 +107,19 @@ let fetchWeatherData = function (cityName) {
                 fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly,alerts&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherForecast) {
                     return weatherForecast.json();
                 }).then(function (weatherForecast) {
+                    console.log(weatherForecast)
+                    let timeZone = weatherForecast.timezone
+                    let today = luxon.DateTime.now().setZone(timeZone).toLocaleString()
+                    let dateEl = $('#date')
+                    dateEl.append(today)
+                    console.log(timeZone)
                     let uvi = weatherForecast.current.uvi
                     let uviEl = $('<p>').text('UV Index: ' + uvi);
                     setUviBackground(uvi, uviEl);
                     let headerEl = $('<h4>').text('Five Day Forecast:')
                     fiveDayHeaderEl.append(headerEl)
                     for (i = 1; i < 6; i++) {
-                        let day = luxon.DateTime.now().plus({ days: i }).toLocaleString()
+                        let day = luxon.DateTime.now().setZone(timeZone).plus({ days: i }).toLocaleString()
                         let dayEl = $('<h5>').text(day)
                         let iconCode = weatherForecast.daily[i].weather[0].icon
                         let icon = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
