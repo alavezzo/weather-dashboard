@@ -107,12 +107,10 @@ let fetchWeatherData = function (cityName) {
                 fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly,alerts&appid=866141fb7c26836e8f40e14146bbd900`).then(function (weatherForecast) {
                     return weatherForecast.json();
                 }).then(function (weatherForecast) {
-                    console.log(weatherForecast)
                     let timeZone = weatherForecast.timezone
                     let today = luxon.DateTime.now().setZone(timeZone).toLocaleString()
                     let dateEl = $('#date')
                     dateEl.append(today)
-                    console.log(timeZone)
                     let uvi = weatherForecast.current.uvi
                     let uviEl = $('<p>').text('UV Index: ' + uvi);
                     setUviBackground(uvi, uviEl);
