@@ -138,7 +138,7 @@ let fetchWeatherData = function (cityName) {
             });
         }
         else {
-            alert('Error: GitHub User Not Found')
+            alert('Error: City Not Found')
         };
     });
 }
