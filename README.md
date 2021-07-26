@@ -2,7 +2,7 @@
 
 This app will display current weather conditions and a five day weather forecast for any city that is entered into the search bar.
 
-## Link to Webpage 
+## Link to Site 
 https://alavezzo.github.io/weather-dashboard/
 
 ## Screenshot of Site
